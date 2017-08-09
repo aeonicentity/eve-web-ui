@@ -1,40 +1,86 @@
+import EveoCore from '../eveo-core/eveo-core.js';
+
 export class EveoFwStats extends HTMLElement{
   constructor(self){
     super(self);
     return self;
   }
 
+  get headers(){
+    let headers = new Headers();
+    headers.append('accept', 'application/json');
+    return headers;
+  }
+
+  get tableTemplate(){
+    let tableData = "";
+    for (let i=0; i<this.parsedData.length; i++){
+      tableData += `
+      <tr>
+        <td>${this.parsedData[i].faction}</td>
+        <td>${this.parsedData[i].pilots}</td>
+        <td>${this.parsedData[i].systems_controlled}</td>
+        <td>${this.parsedData[i].kills.yesterday}</td>
+        <td>${this.parsedData[i].victory_points.yesterday}</td>
+      </tr>
+      `
+    }return tableData;
+  }
+
   get template(){
     return `
-      <p>test</p>
+      <h2>Faction Warfare Stats</h2>
+      <table>
+        <tr>
+          <td>Faction</td>
+          <td>Pilots</td>
+          <td>Control</td>
+          <td>Today's Kills</td>
+          <td>VP</td>
+        </tr>
+        ${this.tableTemplate}
+      </table>
     `;
   }
 
   get fwData(){
-    let headers = new Headers();
-    headers.append('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8')
-    headers.append('content-type','text/plain');
-    headers.append('cache-control', 'no-cache');
-    headers.append('upgrade-insecure-requests',1);
-    headers.append('accept-encoding','gzip, deflate, br');
-    headers.append('accept-language','en-US,en;q=0.8');
-    headers.append('cache-control','no-cache');
-    headers.append('authority','esi.tech.ccp.is');
-    headers.append('method','GET');
-    headers.append('path','/dev/fw/stats/');
-    headers.append('scheme','https');
-    return fetch('https://esi.tech.ccp.is/dev/fw/stats',{
+    return fetch('https://esi.tech.ccp.is/dev/fw/stats/?datasource=tranquility',{
       method: 'GET',
-      headers: headers
+      headers: this.headers
     }).then((data)=>{
-      console.log(data);
+      return data.json()
+    })
+  }
+
+  get factionsData(){
+    return fetch('https://esi.tech.ccp.is/dev/universe/factions/?datasource=tranquility',{
+      method: 'GET',
+      headers: this.headers
+    }).then((data)=>{
+      return data.json();
     })
   }
 
   connectedCallback(){
+    this.parsedData = [];
     this.shadow = this.attachShadow({mode: 'open'});
-    this.shadow.innerHTML = this.template;
-    this.fwData;
+    
+    this.fwData.then((fwData)=>{
+      this.factionsData.then((factions)=>{
+        console.log(factions);
+        for(let i = 0; i < fwData.length; i++){
+          for(let j = 0; j < factions.length; j++){
+            console.log(fwData);
+            if(factions[j].faction_id == fwData[i].faction_id){
+              fwData[i].faction = factions[j].name;
+              this.parsedData.push(fwData[i]);
+              break;
+            }
+          }
+          console.log(this.parsedData);
+        }this.shadow.innerHTML = this.template;
+      })
+    });
   }
 }
 
