@@ -1,0 +1,29 @@
+{
+  "name": "eve-web-ui",
+  "version": "0.0.0",
+  "description": "Reusable shadow dom UI components for EVE-online websites.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aeonicentity/eve-web-ui.git"
+  },
+  "keywords": [
+    "EVE",
+    "Online",
+    "UI",
+    "Reusable"
+  ],
+  "author": "David \"Blastil\" Brilliant",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aeonicentity/eve-web-ui/issues"
+  },
+  "homepage": "https://github.com/aeonicentity/eve-web-ui#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1"
+  }
+}
