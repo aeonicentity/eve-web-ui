@@ -1,5 +1,5 @@
 import EveoCore from '../eveo-core/eveo-core.js';
-import template from './eveo-fw-stats.html'
+import StatsTableTpl from './eveo-fw-stats.html'
 
 export class EveoFwStats extends HTMLElement{
   constructor(self){
@@ -29,19 +29,7 @@ export class EveoFwStats extends HTMLElement{
   }
 
   get template(){
-    return `
-      <h2>Faction Warfare Stats</h2>
-      <table>
-        <tr>
-          <td>Faction</td>
-          <td>Pilots</td>
-          <td>Control</td>
-          <td>Today's Kills</td>
-          <td>VP</td>
-        </tr>
-        ${this.tableTemplate}
-      </table>
-    `;
+    return eval('`'+StatsTableTpl+'`');
   }
 
   get fwData(){
@@ -65,7 +53,7 @@ export class EveoFwStats extends HTMLElement{
   connectedCallback(){
     this.parsedData = [];
     this.shadow = this.attachShadow({mode: 'open'});
-    console.log(template);
+    
     this.fwData.then((fwData)=>{
       this.factionsData.then((factions)=>{
         console.log(factions);
