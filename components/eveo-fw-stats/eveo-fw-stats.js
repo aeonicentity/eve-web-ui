@@ -1,5 +1,6 @@
 import EveoCore from '../eveo-core/eveo-core.js';
 import StatsTableTpl from './eveo-fw-stats.html'
+import StatsTableLineTpl from './eveo-fw-stats-line.html'
 
 export class EveoFwStats extends HTMLElement{
   constructor(self){
@@ -16,15 +17,7 @@ export class EveoFwStats extends HTMLElement{
   get tableTemplate(){
     let tableData = "";
     for (let i=0; i<this.parsedData.length; i++){
-      tableData += `
-      <tr>
-        <td>${this.parsedData[i].faction}</td>
-        <td>${this.parsedData[i].pilots}</td>
-        <td>${this.parsedData[i].systems_controlled}</td>
-        <td>${this.parsedData[i].kills.yesterday}</td>
-        <td>${this.parsedData[i].victory_points.yesterday}</td>
-      </tr>
-      `
+      tableData += eval('`'+StatsTableLineTpl+'`');
     }return tableData;
   }
 
