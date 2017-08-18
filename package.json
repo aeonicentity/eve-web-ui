@@ -24,8 +24,10 @@
   "homepage": "https://github.com/aeonicentity/eve-web-ui#readme",
   "devDependencies": {
     "browser-sync": "^2.18.13",
+    "eslint": "^4.4.1",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
+    "gulp-eslint": "^4.0.0",
     "html-loader": "^0.5.1",
     "webpack": "^2.7.0",
     "webpack-stream": "^4.0.0"

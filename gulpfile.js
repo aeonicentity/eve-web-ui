@@ -6,6 +6,7 @@ let browserSync = require('browser-sync').create();
 let webpackStream = require('webpack-stream');
 let webpack2 = require('webpack');
 let htmlLoader = require('html-loader');
+let eslint = require('gulp-eslint');
 
 gulp.task('clean',()=>{
   gulp.src('dist/*', {read:false})
@@ -39,7 +40,19 @@ gulp.task('webpack',['copy'], ()=>{
     .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('default', ['webpack'], ()=>{
+gulp.task('lint',['webpack'],()=>{
+  return gulp.src([
+      'components/**/*.js',
+      '!node_modules/**',
+      '!gulpfile.js',
+      '!dist/**'
+    ])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+})
+
+gulp.task('default', ['lint'], ()=>{
   browserSync.init({
     server: {
       baseDir: "./dist"

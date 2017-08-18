@@ -1,6 +1,6 @@
-import EveoCore from '../eveo-core/eveo-core.js';
-import StatsTableTpl from './eveo-fw-stats.html'
-import StatsTableLineTpl from './eveo-fw-stats-line.html'
+//import EveoCore from '../eveo-core/eveo-core.js';
+import StatsTableTpl from './eveo-fw-stats.html';
+import StatsTableLineTpl from './eveo-fw-stats-line.html';
 
 export class EveoFwStats extends HTMLElement{
   constructor(self){
@@ -15,7 +15,7 @@ export class EveoFwStats extends HTMLElement{
   }
 
   get tableTemplate(){
-    let tableData = "";
+    let tableData = '';
     for (let i=0; i<this.parsedData.length; i++){
       tableData += eval('`'+StatsTableLineTpl+'`');
     }return tableData;
@@ -30,8 +30,8 @@ export class EveoFwStats extends HTMLElement{
       method: 'GET',
       headers: this.headers
     }).then((data)=>{
-      return data.json()
-    })
+      return data.json();
+    });
   }
 
   get factionsData(){
@@ -40,7 +40,7 @@ export class EveoFwStats extends HTMLElement{
       headers: this.headers
     }).then((data)=>{
       return data.json();
-    })
+    });
   }
 
   connectedCallback(){
@@ -49,19 +49,16 @@ export class EveoFwStats extends HTMLElement{
     
     this.fwData.then((fwData)=>{
       this.factionsData.then((factions)=>{
-        console.log(factions);
         for(let i = 0; i < fwData.length; i++){
           for(let j = 0; j < factions.length; j++){
-            console.log(fwData);
             if(factions[j].faction_id == fwData[i].faction_id){
               fwData[i].faction = factions[j].name;
               this.parsedData.push(fwData[i]);
               break;
             }
           }
-          console.log(this.parsedData);
         }this.shadow.innerHTML = this.template;
-      })
+      });
     });
   }
 }

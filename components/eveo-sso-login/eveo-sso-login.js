@@ -1,1 +1,1 @@
-import EveoCore from '../eveo-core/eveo-core.js';
+//import EveoCore from '../eveo-core/eveo-core.js';
