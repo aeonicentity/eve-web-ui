@@ -1,4 +1,5 @@
 import EveoCore from '../eveo-core/eveo-core.js';
+import template from './eveo-fw-stats.html'
 
 export class EveoFwStats extends HTMLElement{
   constructor(self){
@@ -64,7 +65,7 @@ export class EveoFwStats extends HTMLElement{
   connectedCallback(){
     this.parsedData = [];
     this.shadow = this.attachShadow({mode: 'open'});
-    
+    console.log(template);
     this.fwData.then((fwData)=>{
       this.factionsData.then((factions)=>{
         console.log(factions);

@@ -26,6 +26,7 @@
     "browser-sync": "^2.18.13",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
+    "html-loader": "^0.5.1",
     "webpack": "^2.7.0",
     "webpack-stream": "^4.0.0"
   }

@@ -5,6 +5,7 @@ let clean = require('gulp-clean');
 let browserSync = require('browser-sync').create();
 let webpackStream = require('webpack-stream');
 let webpack2 = require('webpack');
+let htmlLoader = require('html-loader');
 
 gulp.task('clean',()=>{
   gulp.src('dist/*', {read:false})
@@ -19,6 +20,17 @@ gulp.task('copy',['clean'], ()=>{
 gulp.task('webpack',['copy'], ()=>{
   return gulp.src('components/main.js')
     .pipe(webpackStream({
+      module:{
+        rules:[{
+          test:/\.html$/,
+          use: [{
+            loader:'html-loader',
+            options:{
+              minimize:true
+            }
+          }],
+        }]
+      },
       output:{
         filename:'main.js'
       }
