@@ -1,17 +1,13 @@
 //import EveoCore from '../eveo-core/eveo-core.js';
 import StatsTableTpl from './eveo-fw-stats.html';
 import StatsTableLineTpl from './eveo-fw-stats-line.html';
+import {EveoApiHelper} from '../eveo-core/eveo-api.js';
+// import {Config} from '../eveo-core/eveo-config.js';
 
 export class EveoFwStats extends HTMLElement{
   constructor(self){
     super(self);
     return self;
-  }
-
-  get headers(){
-    let headers = new Headers();
-    headers.append('accept', 'application/json');
-    return headers;
   }
 
   get tableTemplate(){
@@ -26,19 +22,13 @@ export class EveoFwStats extends HTMLElement{
   }
 
   get fwData(){
-    return fetch('https://esi.tech.ccp.is/dev/fw/stats/?datasource=tranquility',{
-      method: 'GET',
-      headers: this.headers
-    }).then((data)=>{
+    return EveoApiHelper.callApi('fw/stats/','GET').then((data)=>{
       return data.json();
     });
   }
 
   get factionsData(){
-    return fetch('https://esi.tech.ccp.is/dev/universe/factions/?datasource=tranquility',{
-      method: 'GET',
-      headers: this.headers
-    }).then((data)=>{
+    return EveoApiHelper.callApi('universe/factions/','GET').then((data)=>{
       return data.json();
     });
   }
