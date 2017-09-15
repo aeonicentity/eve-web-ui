@@ -3,7 +3,15 @@ import {Config} from './eveo-config.js';
 export class EveoApiCall {
   get headers(){
     let headers = new Headers();
-    headers.append('accept', 'application/json');
+    headers.append('Accept', 'application/json');
+    if(this.headerStorage){
+      Object.entries(this.headerStorage).forEach((idx, val)=>{
+        console.log(idx,val);
+        headers.append(idx, val);
+      });
+    }
+    //headers.append('Cache-Control', 'no-cache');
+    // headers.append('X-User_agent', )
     return headers;
   }
 
@@ -15,11 +23,13 @@ export class EveoApiCall {
     return returnString.substring(0,returnString-1);
   }
 
-  callApi(endpoint, method, args){
+  callApi(endpoint, method, headers, args){
+    this.headerStorage = null;
     //set default args.
     !args && (args = {});
     !args['datasource'] && (args['datasource'] = 'tranquility');
 
+    headers && (this.headerStorage = headers);
     //return the promised fetch.
     return fetch(Config.api+endpoint+this.formatArgs(args),{
       method: method,

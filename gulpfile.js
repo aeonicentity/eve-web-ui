@@ -50,15 +50,19 @@ gulp.task('lint',['webpack'],()=>{
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
-})
+});
 
 gulp.task('default', ['lint'], ()=>{
+  
   browserSync.init({
     server: {
       baseDir: "./dist"
     }
   })
-  gulp.watch('components/').on('change', ()=>{
+  gulp.watch([
+    './components/**/*.js',
+    './components/**/*.html'
+    ], ['lint']).on('change', ()=>{
     console.log('reloading');
     browserSync.reload
   });
